@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soap Products</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Soap Products</h1>
+    </header>
+    <div class="container">
+        <button id="button" class="">Load Data</button>
+        <table class="table table-striped table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Barcode_id</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Price</th>
+                    <th>Scent</th>
+                    <th>Ingredient</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const loadButton = document.getElementById("button");
+        loadButton.addEventListener("click", function () {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", "json.php");
+            xmlhttp.send();
+            xmlhttp.onload = function () {
+                const tableBody = document.querySelector('table tbody');
+                const soaps = JSON.parse(xmlhttp.responseText);
+                soaps.forEach(soap => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+              <td>${soap.barcode_id}</td>
+              <td>${soap.name}</td>
+              <td>${soap.type}</td>
+              <td>${soap.size}</td>
+              <td>${soap.price}</td>
+              <td>${soap.scent}</td>
+              <td>${soap.ingredient}</td>
+            `;
+                    tableBody.appendChild(row);
+                });
+            };
+            loadButton.style.display = 'none'; // hide the button after clicking
+        });
+    </script>
+</body>
+</html>
